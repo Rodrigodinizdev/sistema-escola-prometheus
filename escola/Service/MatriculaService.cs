@@ -19,12 +19,12 @@ public class MatriculaService(IMatriculaRepository matriculaRepository, IAlunoRe
         if (aluno == null)
             return $"Aluno não encotrado";
 
-        var matriculaExistente = _matriculaRepository.BuscarPorAlunoId(dto.IdAluno);
+        var matricula = _matriculaRepository.BuscarPorAlunoId(dto.IdAluno);
 
-        if (matriculaExistente != null)
+        if (matricula != null)
             return $"Aluno já possui matrícula";
 
-        var matricula = new Matricula(aluno);
+         matricula = new Matricula(aluno);
         _matriculaRepository.Matricular(matricula);
         return $"Matricula: {matricula.NumeroMatricula} do aluno {aluno.NomeCompleto} feita com sucesso";
     }

@@ -38,7 +38,9 @@ public class MenuEscola(IAlunoService alunoService, IMatriculaService matriculaS
             Console.WriteLine(" ________________________________________");
 
             Console.Write("Escolha uma opção: ");
-            switch (Console.ReadLine()?.Trim())
+            string opcao = Console.ReadLine();
+
+            switch (opcao)
             {
                 case "1": CadastrarAluno(); break;
                 case "2": CadastrarProfessor(); break;

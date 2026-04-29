@@ -11,12 +11,12 @@ public class AlunoService(IAlunoRepository alunoRepository) : IAlunoService
 
     public string CriarAluno(AlunoDto dto)
     {
-        var alunoExistente = _alunoRepository.BuscarPeloCpf(dto.Cpf);
+        var aluno = _alunoRepository.BuscarPeloCpf(dto.Cpf);
 
-        if (alunoExistente != null)
+        if (aluno != null)
             return $"Aluno já cadastrado";
 
-        var aluno = new Aluno(dto.NomeCompleto, dto.DataNascimento, dto.Cpf);
+         aluno = new Aluno(dto.NomeCompleto, dto.DataNascimento, dto.Cpf);
         _alunoRepository.CadastrarAluno(aluno);
         return $"{aluno.NomeCompleto} criado com sucesso";
     }
