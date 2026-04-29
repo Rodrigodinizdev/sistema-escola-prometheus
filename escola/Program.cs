@@ -1,4 +1,4 @@
-﻿using escola.Models;
+using escola.Models;
 using escola.Repository;
 using escola.Service;
 using escola.UI;
@@ -83,4 +83,73 @@ mat3.Avaliacoes.Add(new AvaliacaoPratica("Projeto", new DateTime(2025, 4, 15), 5
 
 var ui = new MenuEscola(alunoService, matriculaService, professorService, disciplinaService, avaliacaoService);
 
-ui.Menu();
+ui.public List<BoletimDto> GerarBoletim(Guid idMatricula)
+{
+    var matricula = _matriculaRepository.BuscarPorId(idMatricula);
+
+    if (matricula == null)
+        return new List<BoletimDto>();
+
+    var boletim = new List<BoletimDto>();
+
+    foreach (var disciplina in matricula.Disciplinas)
+    {
+        var notas = disciplina.Avaliacoes.Select(a => a.Nota).ToList();
+
+        double media = 0;
+
+        if (notas.Count > 0)
+            media = notas.Average();
+
+        var situacao = media >= 7 ? "Aprovado" : "Reprovado";
+
+        boletim.Add(new BoletimDto
+        {
+            DisciplinaNome = disciplina.Nome,
+            Media = media,
+            Situacao = situacao
+        });
+    }
+
+    return public void GerarBoletim()
+{
+    Console.Clear();
+
+    Console.WriteLine("=== GERAR BOLETIM ===\n");
+
+    Console.WriteLine("Escolha uma Matrícula:\n");
+
+    var matriculas = _matriculaService.ListarMatriculas();
+
+    foreach (var matricula in matriculas)
+        Console.WriteLine(matricula);
+
+    Console.Write("\nDigite o Id da Matrícula: ");
+
+    Guid idMatricula;
+
+    while (!Guid.TryParse(Console.ReadLine(), out idMatricula))
+    {
+        Console.WriteLine("Id inválido, tente novamente:");
+    }
+
+    var resultados = _matriculaService.GerarBoletim(idMatricula);
+
+    foreach (var resultado in resultados)
+    {
+        Console.WriteLine($"Disciplina: {resultado.DisciplinaNome}");
+        Console.WriteLine($"Média: {resultado.Media}");
+        Console.WriteLine($"Situação: {resultado.Situacao}");
+        Console.WriteLine("----------------------------");
+    }
+
+    Console.public class BoletimDto
+{
+    public string DisciplinaNome { get; set; }
+    public double Media { get; set; }
+    public string Situacao { get; set; }
+}
+
+
+
+
